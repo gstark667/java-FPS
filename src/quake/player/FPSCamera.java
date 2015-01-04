@@ -9,25 +9,27 @@ package quake.player;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.GL11.glRotated;
+import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTranslated;
+import quake.Main;
 
 /**
  *
  * @author gavinstark
  */
 public class FPSCamera {
-    static double x, y, z;
-    static double r, p;
+    static float x, y, z;
+    static float r, p;
     
     static {
-        x = 0;
-        y = 0;
-        z = 0;
+        x = 1;
+        y = 1;
+        z = 1;
         r = 0;
         p = 0;
     }
     
-    public static void update(double speed) {
+    public static void update(float speed) {
         if(Mouse.isGrabbed()) {
             r += Mouse.getDX()*0.5;
             p -= Mouse.getDY()*0.5;
@@ -35,24 +37,33 @@ public class FPSCamera {
         
         double angle = Math.toRadians(r);
         
-        double dx = 0;
-        double dz = 0;
+        float dx = 0;
+        float dz = 0;
         if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            dz += speed;
-        }
-        
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
             dz -= speed;
         }
         
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            dx += speed;
+        if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            dz += speed;
         }
         
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+        if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
             dx -= speed;
         }
         
+        if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            dx += speed;
+        }
+        
+        float f = Main.m.fallDistance(x, z, y-0.5f);
+        System.out.println(f);
+        if(f < 0 && f >= -0.2) {
+            y += speed;
+        }else if(f < -0.2) {
+            y -= speed;
+        }
+        
+        /*
         if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
             y += speed;
         }
@@ -60,6 +71,7 @@ public class FPSCamera {
         if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
             y -= speed;
         }
+        */
         
         z += dz*Math.cos(angle) + dx*Math.sin(angle);
         x += dz*Math.sin(angle+3.14) + dx*Math.cos(angle);
@@ -73,6 +85,6 @@ public class FPSCamera {
     public static void render() {
         glRotated(p, 1, 0, 0);
         glRotated(r, 0, 1, 0);
-        glTranslated(x, y, z);
+        glTranslated(-x, -y, -z);
     }
 }

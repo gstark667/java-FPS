@@ -24,4 +24,38 @@ public class Map {
         for(Node n: nodes)
             n.render();
     }
+    
+    public boolean canFall(float x, float y, float z) {
+        for(Node n: nodes) {
+            if(n.p.contains(x, y)) {
+                if(n.fv) {
+                    float fh = z -n.floor.getHeight(x, y);
+                    if(fh < 0 && fh > -0.2)
+                        return false;
+                }
+                if(n.cv) {
+                    float ch = z -n.celing.getHeight(x, y);
+                    if(ch < 0.1 && ch > -0.1)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public float fallDistance(float x, float y, float z) {
+        for(Node n: nodes) {
+            if(n.p.contains(x, y)) {
+                if(n.fv) {
+                    float fh = n.floor.getHeight(x, y)-z;
+                        return fh;
+                }
+                if(n.cv) {
+                    float ch = n.celing.getHeight(x, y)-z;
+                        return ch;
+                }
+            }
+        }
+        return -1;
+    }
 }

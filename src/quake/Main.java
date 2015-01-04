@@ -5,6 +5,7 @@
  */
 package quake;
 
+import java.util.ArrayList;
 import quake.map.MapParser;
 import quake.map.Map;
 import java.util.logging.Level;
@@ -16,16 +17,15 @@ import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
-import org.lwjgl.util.glu.GLUtessellator;
-import quake.map.Plane;
 import quake.player.FPSCamera;
+import quake.player.FallyThingy;
 
 /**
  *
  * @author Octalus
  */
 public class Main {
-    public static GLUtessellator tesselator;
+    public static Map m;
     /**
      * @param args the command line arguments
      */
@@ -54,14 +54,14 @@ public class Main {
     }
     
     public static void gameLoop() {
-        Map m = MapParser.parseMap("/res/map.bsp");
+        m = MapParser.parseMap("/res/map.bsp");
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
             
-            FPSCamera.update(0.1);
-            FPSCamera.render();
+            FPSCamera.update(0.01f);
             
+            FPSCamera.render();
             m.Render();
             
             glColor3f(0,0,1);

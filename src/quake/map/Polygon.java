@@ -45,18 +45,16 @@ public class Polygon {
                 glVertex3f(v1.x - (p * (v1.x - v0.x)), 0, y);
                 if(v1.x - (p * (v1.x - v0.x)) < x)
                     left++;
-                System.out.println("Intersect: " + y);
             }else if((y < v0.y && y > v1.y)) {
                 float p = (v1.y - y) / (v1.y-v0.y);
                 glVertex3f(v1.x - (p * (v1.x - v0.x)), 0, y);
                 if(v1.x - (p * (v1.x - v0.x)) < x)
                     left++;
-                System.out.println("Intersect: " + y);
             }
         }
         if(left % 2 == 1) {
             glVertex3f(x, y, 0);
-            System.out.println("Real Intersection");
+            return true;
         }
         return false;
     }
