@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package quake;
+package quake.map;
 
 import java.util.ArrayList;
 import static org.lwjgl.opengl.GL11.GL_POLYGON;
@@ -25,7 +25,7 @@ public class Polygon {
     public void render() {
         glBegin(GL_POLYGON);
             for(Vertex v: vertecies)
-                glVertex3f(v.x, v.y, 0);
+                glVertex3f(v.x, 0, v.y);
         glEnd();
     }
     
@@ -42,13 +42,13 @@ public class Polygon {
             
             if((y > v0.y && y < v1.y)) {
                 float p = (v1.y - y) / (v1.y-v0.y);
-                glVertex3f(v1.x - (p * (v1.x - v0.x)), y, 0);
+                glVertex3f(v1.x - (p * (v1.x - v0.x)), 0, y);
                 if(v1.x - (p * (v1.x - v0.x)) < x)
                     left++;
                 System.out.println("Intersect: " + y);
             }else if((y < v0.y && y > v1.y)) {
                 float p = (v1.y - y) / (v1.y-v0.y);
-                glVertex3f(v1.x - (p * (v1.x - v0.x)), y, 0);
+                glVertex3f(v1.x - (p * (v1.x - v0.x)), 0, y);
                 if(v1.x - (p * (v1.x - v0.x)) < x)
                     left++;
                 System.out.println("Intersect: " + y);

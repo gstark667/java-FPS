@@ -5,6 +5,8 @@
  */
 package quake;
 
+import quake.map.MapParser;
+import quake.map.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
@@ -13,13 +15,17 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.*;
+import org.lwjgl.util.glu.GLUtessellator;
+import quake.map.Plane;
+import quake.player.FPSCamera;
 
 /**
  *
  * @author Octalus
  */
 public class Main {
-
+    public static GLUtessellator tesselator;
     /**
      * @param args the command line arguments
      */
@@ -32,7 +38,7 @@ public class Main {
     
     public static void initDisplay() {
         try {
-            Display.setDisplayMode(new DisplayMode(600, 400));
+            Display.setDisplayMode(new DisplayMode(800, 600));
             Display.create();
         } catch (LWJGLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,7 +47,8 @@ public class Main {
     
     public static void initGL() {
         glMatrixMode(GL_PROJECTION);
-        glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 600, -600);
+        gluPerspective(90, (float)800/600, 0.01f, 10000);
+        //glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 600, -600);
         glMatrixMode(GL_MODELVIEW);
         glClearColor(0, 0, 0, 0);
     }
@@ -52,12 +59,13 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
             
-            glScalef(10,10,10);
+            FPSCamera.update(0.1);
+            FPSCamera.render();
+            
             m.Render();
             
             glColor3f(0,0,1);
             glBegin(GL_POINTS);
-            m.polygons.get(0).contains(Mouse.getX()/10.0f, Mouse.getY()/10.0f);
             glEnd();
             
             Display.update();
