@@ -44,18 +44,21 @@ public class Map {
     }
     
     public float fallDistance(float x, float y, float z) {
+        float c = -1;
         for(Node n: nodes) {
             if(n.p.contains(x, y)) {
                 if(n.fv) {
                     float fh = n.floor.getHeight(x, y)-z;
-                        return fh;
+                    if(Math.abs(fh) < Math.abs(c))
+                        c = fh;
                 }
                 if(n.cv) {
                     float ch = n.celing.getHeight(x, y)-z;
-                        return ch;
+                    if(Math.abs(ch) < Math.abs(c))
+                        c = ch;
                 }
             }
         }
-        return -1;
+        return c;
     }
 }

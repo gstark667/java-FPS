@@ -57,8 +57,8 @@ public class FPSCamera {
         
         float f = Main.m.fallDistance(x, z, y-0.5f);
         System.out.println(f);
-        if(f < 0 && f >= -0.2) {
-            y += speed;
+        if(f > 0) {
+            y += f;
         }else if(f < -0.2) {
             y -= speed;
         }
