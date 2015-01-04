@@ -63,6 +63,8 @@ public class FPSCamera {
             y -= speed;
         }
         
+        Main.m.canMove(x, z, x, z, y);
+        
         /*
         if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
             y += speed;
@@ -72,9 +74,29 @@ public class FPSCamera {
             y -= speed;
         }
         */
+        float zm = (float)(dz*Math.cos(angle) + dx*Math.sin(angle));
+        float xm = (float)(dz*Math.sin(angle+3.14) + dx*Math.cos(angle));
         
-        z += dz*Math.cos(angle) + dx*Math.sin(angle);
-        x += dz*Math.sin(angle+3.14) + dx*Math.cos(angle);
+        if(Main.m.canMove(x, z, x, z +1, y))
+            if(zm > 0) {
+                z += zm;
+            }
+        if(Main.m.canMove(x, z-1, x, z, y))
+            if(zm < 0) {
+                z += zm;
+            }
+        
+        if(Main.m.canMove(x, z, x+1, z, y))
+            if(xm > 0) {
+                x += xm;
+            }
+        if(Main.m.canMove(x-1, z, x, z, y))
+            if(xm < 0) {
+                x += xm;
+            }
+            
+        
+            //x += dz*Math.sin(angle+3.14) + dx*Math.cos(angle);
         
         if(Mouse.isButtonDown(0))
             Mouse.setGrabbed(true);

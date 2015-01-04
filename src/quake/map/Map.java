@@ -61,4 +61,20 @@ public class Map {
         }
         return c;
     }
+    
+    public boolean canMove(float x0, float y0, float x1, float y1, float z) {
+        System.out.println(x0 + "," + y0 + " " + x1 + "," + y1);
+        for(Node n: nodes) {
+            if(n.floor.getHeight(x0, y0) < z && n.celing.getHeight(x0, y0) > z) {
+                for(LineDef l: n.l) {
+                    System.out.println("L:" + l.v0.x + "," + l.v0.y + " " + l.v1.x + "," + l.v1.y);
+                    if(Util.lineIntersect(x0, y0, x1, y1, l.v0.x, l.v0.y, l.v1.x, l.v1.y)) {
+                        System.out.println("Intersection");
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
