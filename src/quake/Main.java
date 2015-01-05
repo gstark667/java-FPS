@@ -59,7 +59,7 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
             
-            FPSCamera.update(0.01f);
+            FPSCamera.update(0.1f);
             
             FPSCamera.render();
             m.Render();

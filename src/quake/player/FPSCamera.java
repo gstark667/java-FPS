@@ -77,20 +77,27 @@ public class FPSCamera {
         float zm = (float)(dz*Math.cos(angle) + dx*Math.sin(angle));
         float xm = (float)(dz*Math.sin(angle+3.14) + dx*Math.cos(angle));
         
-        if(Main.m.canMove(x, z, x, z +1, y))
+        if(Main.m.canMove(x, z+1, x, z, y)) {
+            System.out.println("Can Move Z+");
             if(zm > 0) {
                 z += zm;
             }
-        if(Main.m.canMove(x, z-1, x, z, y))
+        }else{
+            System.out.println("Can't Move Z+");
+        }
+        if(Main.m.canMove(x, z, x, z-1, y)) {
+            System.out.println("Can Move Z-");
             if(zm < 0) {
                 z += zm;
             }
-        
+        }else{
+            System.out.println("Can't Move Z-");
+        }
         if(Main.m.canMove(x, z, x+1, z, y))
             if(xm > 0) {
                 x += xm;
             }
-        if(Main.m.canMove(x-1, z, x, z, y))
+        if(Main.m.canMove(x, z, x-1, z, y))
             if(xm < 0) {
                 x += xm;
             }

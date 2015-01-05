@@ -13,7 +13,8 @@ public class Util {
     public static boolean lineIntersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
         float x = ((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4));
         float y = ((x1*y2-y1*x2)*(y3-y4)-(y1-y2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4));
-        
+        if(x == Float.NaN || y == Float.NaN)
+            return false;
         if (x1>=x2) {
             if (!(x2<=x&&x<=x1)) {return false;}
         } else {
