@@ -56,7 +56,6 @@ public class FPSCamera {
         }
         
         float f = Main.m.fallDistance(x, z, y-0.5f);
-        System.out.println(f);
         if(f > 0) {
             y += f;
         }else if(f < -0.2) {
@@ -77,21 +76,30 @@ public class FPSCamera {
         float zm = (float)(dz*Math.cos(angle) + dx*Math.sin(angle));
         float xm = (float)(dz*Math.sin(angle+3.14) + dx*Math.cos(angle));
         
+        if(zm > 0) {
+            System.out.println("Moving Z+");
+        }
+        
+        if(zm < 0) {
+            System.out.println("Moving Z-");
+        }
+        
+        //System.out.println("Position:" + x + "," + z);
         if(Main.m.canMove(x, z+1, x, z, y)) {
-            System.out.println("Can Move Z+");
+            //System.out.println("Can Move Z+");
             if(zm > 0) {
                 z += zm;
             }
         }else{
-            System.out.println("Can't Move Z+");
+            //System.out.println("Can't Move Z+");
         }
         if(Main.m.canMove(x, z, x, z-1, y)) {
-            System.out.println("Can Move Z-");
+            //System.out.println("Can Move Z-");
             if(zm < 0) {
                 z += zm;
             }
         }else{
-            System.out.println("Can't Move Z-");
+            //System.out.println("Can't Move Z-");
         }
         if(Main.m.canMove(x, z, x+1, z, y))
             if(xm > 0) {

@@ -5,20 +5,17 @@
  */
 package quake;
 
-import java.util.ArrayList;
 import quake.map.MapParser;
 import quake.map.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 import quake.player.FPSCamera;
-import quake.player.FallyThingy;
 
 /**
  *
@@ -30,6 +27,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*Start:7.5189915,10.672977:7.5189915,9.672977
+        Line:0.0,0.0:0.0,10.0
+        Line:0.0,10.0:10.0,10.0
+        Line:10.0,10.0:10.0,0.0
+        Line:10.0,0.0:0.0,0.0*/
+        System.out.println(quake.map.Util.lineIntersect(0, 10, 10, 10, 7.5189915f, 9.672977f, 7.518991f, 11.672977f));
         initDisplay();
         initGL();
         gameLoop();
