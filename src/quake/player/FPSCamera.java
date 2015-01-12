@@ -9,7 +9,6 @@ package quake.player;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.GL11.glRotated;
-import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTranslated;
 import quake.Main;
 
@@ -62,56 +61,26 @@ public class FPSCamera {
             y -= speed;
         }
         
-        Main.m.canMove(x, z, x, z, y);
-        
-        /*
-        if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            y += speed;
-        }
-        
-        if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            y -= speed;
-        }
-        */
         float zm = (float)(dz*Math.cos(angle) + dx*Math.sin(angle));
         float xm = (float)(dz*Math.sin(angle+3.14) + dx*Math.cos(angle));
         
-        if(zm > 0) {
-            System.out.println("Moving Z+");
-        }
-        
-        if(zm < 0) {
-            System.out.println("Moving Z-");
-        }
-        
-        //System.out.println("Position:" + x + "," + z);
-        if(Main.m.canMove(x, z+1, x, z, y)) {
-            //System.out.println("Can Move Z+");
+        if(Main.m.canMove(x, z, x, z+0.25f, y-0.35f))
             if(zm > 0) {
                 z += zm;
             }
-        }else{
-            //System.out.println("Can't Move Z+");
-        }
-        if(Main.m.canMove(x, z, x, z-1, y)) {
-            //System.out.println("Can Move Z-");
+        if(Main.m.canMove(x, z, x, z-0.25f, y-0.35f))
             if(zm < 0) {
                 z += zm;
             }
-        }else{
-            //System.out.println("Can't Move Z-");
-        }
-        if(Main.m.canMove(x, z, x+1, z, y))
+        
+        if(Main.m.canMove(x, z, x+0.25f, z, y-0.35f))
             if(xm > 0) {
                 x += xm;
             }
-        if(Main.m.canMove(x, z, x-1, z, y))
+        if(Main.m.canMove(x, z, x-0.25f, z, y-0.35f))
             if(xm < 0) {
                 x += xm;
             }
-            
-        
-            //x += dz*Math.sin(angle+3.14) + dx*Math.cos(angle);
         
         if(Mouse.isButtonDown(0))
             Mouse.setGrabbed(true);

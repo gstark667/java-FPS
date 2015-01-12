@@ -57,7 +57,7 @@ public class Main {
     }
     
     public static void gameLoop() {
-        m = MapParser.parseMap("/res/map_1.bsp");
+        m = MapParser.parseMap("/res/map.bsp");
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
