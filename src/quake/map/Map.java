@@ -7,8 +7,6 @@ package quake.map;
 
 import java.util.ArrayList;
 
-import static org.lwjgl.opengl.GL11.*;
-
 /**
  *
  * @author Octalus

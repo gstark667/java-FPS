@@ -58,7 +58,7 @@ public class FPSCamera {
         if(f > 0) {
             y += f;
         }else if(f < -0.2) {
-            y -= speed;
+            y -= speed/2;
         }
         
         float zm = (float)(dz*Math.cos(angle) + dx*Math.sin(angle));
