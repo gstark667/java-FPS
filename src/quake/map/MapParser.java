@@ -20,6 +20,7 @@ public class MapParser {
         ArrayList<LineDef> lineDefs = new ArrayList<LineDef>();
         ArrayList<Polygon> polygons = new ArrayList<Polygon>();
         ArrayList<Plane> planes = new ArrayList<Plane>();
+        ArrayList<String> texture_paths = new ArrayList<String>();
         ArrayList<Node> nodes = new ArrayList<Node>();
         
         mapReader.nextLine();
@@ -61,20 +62,28 @@ public class MapParser {
             line = mapReader.nextLine();
         }
         
+         mapReader.nextLine();
+        line = mapReader.nextLine();
+        
+        while(!line.equals("end")) {
+            texture_paths.add(line);
+            line = mapReader.nextLine();
+        }
+        
         mapReader.nextLine();
         line = mapReader.nextLine();
         
         while(!line.equals("end")) {
             String[] split = line.split(",");
             ArrayList<LineDef> sides = new ArrayList<LineDef>();
-            for(int i = 1; i < split.length-4; i++)
+            for(int i = 1; i < split.length-6; i++)
                 sides.add(lineDefs.get(Integer.parseInt(split[i])));
-            nodes.add(new Node(polygons.get(Integer.parseInt(split[0])), sides, planes.get(Integer.parseInt(split[split.length-4])), planes.get(Integer.parseInt(split[split.length-3])), split[split.length-2].equals("1"), split[split.length-1].equals("1")));
+            nodes.add(new Node(polygons.get(Integer.parseInt(split[0])), sides, planes.get(Integer.parseInt(split[split.length-6])), planes.get(Integer.parseInt(split[split.length-5])), split[split.length-4].equals("1"), split[split.length-3].equals("1"), Integer.parseInt(split[split.length-2]), Integer.parseInt(split[split.length-1])));
             line = mapReader.nextLine();
         }
         
         mapReader.close();
         
-        return new Map(nodes);
+        return new Map(nodes, texture_paths);
     }
 }

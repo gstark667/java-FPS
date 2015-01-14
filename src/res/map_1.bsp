@@ -17,6 +17,10 @@ plane:
 0,0,0
 0,0,2
 end
+texture:
+dirt.png
+grass.png
+end
 node:
-0,0,1,2,3,0,1,1,1
+0,0,1,2,3,0,1,1,1,0,1
 end

@@ -5,7 +5,16 @@
  */
 package quake.map;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 /**
  *
@@ -13,9 +22,21 @@ import java.util.ArrayList;
  */
 public class Map {
     ArrayList<Node> nodes;
+    ArrayList<Texture> textures;
     
-    public Map(ArrayList<Node> nodes) {
+    public Map(ArrayList<Node> nodes, ArrayList<String> texture_paths) {
         this.nodes = nodes;
+        textures = new ArrayList<Texture>();
+        for(String path: texture_paths)
+            try {
+                textures.add(TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/" + path), GL11.GL_NEAREST));
+            } catch (IOException ex) {
+                Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    public void setTexture(int i) {
+        glBindTexture(GL_TEXTURE_2D, textures.get(i).getTextureID());
     }
     
     public void Render() {
