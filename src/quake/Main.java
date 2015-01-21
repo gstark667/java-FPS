@@ -22,6 +22,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import quake.map.Map;
 import quake.map.MapParser;
 import quake.player.FPSCamera;
+import quake.player.Player;
 
 /**
  *
@@ -42,12 +43,6 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        /*Start:7.5189915,10.672977:7.5189915,9.672977
-        Line:0.0,0.0:0.0,10.0
-        Line:0.0,10.0:10.0,10.0
-        Line:10.0,10.0:10.0,0.0
-        Line:10.0,0.0:0.0,0.0*/
-        System.out.println(quake.map.Util.lineIntersect(0, 10, 10, 10, 7.5189915f, 9.672977f, 7.518991f, 11.672977f));
         initDisplay();
         initGL();
         gameLoop();
@@ -56,7 +51,10 @@ public class Main {
     
     public static void initDisplay() {
         try {
-            Display.setDisplayMode(new DisplayMode(800, 600));
+            //Display.setDisplayMode(new DisplayMode(800, 600));
+            Display.setDisplayMode(Display.getAvailableDisplayModes()[0]);
+            Display.setFullscreen(true);
+            Display.setVSyncEnabled(true);
             Display.create();
         } catch (LWJGLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +63,7 @@ public class Main {
     
     public static void initGL() {
         glMatrixMode(GL_PROJECTION);
-        gluPerspective(90, (float)800/600, 0.01f, 10000);
+        gluPerspective(90, (float)Display.getWidth()/Display.getHeight(), 0.01f, 10000);
         //glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 600, -600);
         glMatrixMode(GL_MODELVIEW);
         glClearColor(0, 0, 0, 0);
@@ -109,7 +107,7 @@ public class Main {
     public static void gameLoop() throws IOException {
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/grass.png"), GL_NEAREST);
         t2 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/dirt.png"), GL_NEAREST);
-        m = MapParser.parseMap("/res/map.bsp");
+        m = MapParser.parseMap("/res/simple_map.bsp");
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
@@ -118,9 +116,9 @@ public class Main {
             
             glBindTexture(GL_TEXTURE_2D, t2.getTextureID());
             
-            FPSCamera.update(0.1f);
+            Player.update(0.2f);
             
-            FPSCamera.render();
+            Player.render();
             m.Render();
             
             //-----starting light code-----//

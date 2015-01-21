@@ -62,7 +62,7 @@ public class Node {
         }
         glEnd();
         Main.m.setTexture(floor_texture);
-        glColor3f(0.7f, 0.7f, 0.7f);
+        glColor3f(0.7f, 0.1f, 0.1f);
         if(fv) {
             glBegin(GL_POLYGON);
             for(Vertex v: p.vertecies) {
