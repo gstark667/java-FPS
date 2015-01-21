@@ -6,12 +6,13 @@
 package quake;
 
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
@@ -30,6 +31,13 @@ public class Main {
     public static Map m;
     static Texture t;
     static Texture t2;
+    //----------- Variables added for Lighting Test -----------//
+	public static FloatBuffer matSpecular;
+	public static FloatBuffer lightPosition;
+	public static FloatBuffer whiteLight; 
+	public static FloatBuffer lModelAmbient;
+    //----------- END: Variables added for Lighting Test -----------//
+        
     /**
      * @param args the command line arguments
      */
@@ -64,6 +72,38 @@ public class Main {
         
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_DEPTH_TEST);
+        
+        //----------- Variables & method calls added for Lighting Test -----------//
+	initLightArrays();
+	glShadeModel(GL_SMOOTH);
+	glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);				// sets specular material color
+	glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);					// sets shininess
+		
+	glLight(GL_LIGHT0, GL_POSITION, lightPosition);				// sets light position
+	glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);				// sets specular light to white
+	glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);					// sets diffuse light to white
+	glLightModel(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);		// global ambient light 
+		
+	glEnable(GL_LIGHTING);										// enables lighting
+	glEnable(GL_LIGHT0);										// enables light0
+		
+	glEnable(GL_COLOR_MATERIAL);								// enables opengl to use glColor3f to define material color
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);			// tell opengl glColor3f effects the ambient and diffuse properties of material
+        //----------- END: Variables & method calls added for Lighting Test -----------//
+    }
+    
+    public static void initLightArrays() {
+	matSpecular = BufferUtils.createFloatBuffer(4);
+	matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+		
+	lightPosition = BufferUtils.createFloatBuffer(4);
+	lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
+		
+	whiteLight = BufferUtils.createFloatBuffer(4);
+	whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+		
+	lModelAmbient = BufferUtils.createFloatBuffer(4);
+        lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
     }
     
     public static void gameLoop() throws IOException {
@@ -74,6 +114,8 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
             
+            glPushMatrix();
+            
             glBindTexture(GL_TEXTURE_2D, t2.getTextureID());
             
             FPSCamera.update(0.1f);
@@ -81,9 +123,16 @@ public class Main {
             FPSCamera.render();
             m.Render();
             
-            glColor3f(0,0,1);
+            //-----starting light code-----//
+            lightPosition = BufferUtils.createFloatBuffer(4);
+            lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
+            glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+            //-----ending light code-----//
             
+            glColor3f(0,0,1);
             glBindTexture(GL_TEXTURE_2D, 0);
+            
+            glPopMatrix();
             
             Display.update();
             Display.sync(60);
