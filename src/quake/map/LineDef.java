@@ -14,11 +14,11 @@ import static org.lwjgl.opengl.GL11.glVertex3f;
  */
 public class LineDef {
     Vertex v0, v1;
-    
-    public LineDef(Vertex v0, Vertex v1) {
+    boolean direction;
+    public LineDef(Vertex v0, Vertex v1, boolean direction) {
         this.v0 = v0;
         this.v1 = v1;
-        System.out.println("LineDef: " + v0.x + "," + v0.y + " " + v1.x + "," + v1.y);
+        this.direction = direction;
     }
     
     public void render() {

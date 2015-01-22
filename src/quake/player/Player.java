@@ -35,13 +35,12 @@ public class Player{
     public static void update(float speed) {
         if(Mouse.isGrabbed()) {
             r += Mouse.getDX()*0.5;
-            //p -= Mouse.getDY()*0.5;
             
             float yd = Mouse.getDY();
             if(yd > 0 && p > -90)
-                p -= yd*0.5;
+                p -= yd*0.05;
             else if(yd < 0 && p < 90)
-                p -= yd*0.5;
+                p -= yd*0.05;
         }
         
         double angle = Math.toRadians(r);
@@ -69,11 +68,10 @@ public class Player{
             y += f;
             yv = 0;
         }else if(f < -0.2) {
-            //y -= yv;
+            y += 0.01f;
         }
         
         float c = Main.m.fallDistance(x, z, y);
-        System.out.println("C:" + c);
         if(c > 0)
             yv = -0.01f;
         

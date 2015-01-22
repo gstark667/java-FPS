@@ -5,6 +5,9 @@
  */
 package quake;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.*;
+
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
@@ -12,16 +15,9 @@ import java.util.logging.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 import quake.map.Map;
 import quake.map.MapParser;
-import quake.player.FPSCamera;
 import quake.player.Player;
 
 /**
@@ -51,7 +47,6 @@ public class Main {
     
     public static void initDisplay() {
         try {
-            //Display.setDisplayMode(new DisplayMode(800, 600));
             Display.setDisplayMode(Display.getAvailableDisplayModes()[0]);
             Display.setFullscreen(true);
             Display.setVSyncEnabled(true);
@@ -64,29 +59,31 @@ public class Main {
     public static void initGL() {
         glMatrixMode(GL_PROJECTION);
         gluPerspective(90, (float)Display.getWidth()/Display.getHeight(), 0.01f, 10000);
-        //glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 600, -600);
         glMatrixMode(GL_MODELVIEW);
         glClearColor(0, 0, 0, 0);
         
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_DEPTH_TEST);
         
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+        
         //----------- Variables & method calls added for Lighting Test -----------//
 	initLightArrays();
 	glShadeModel(GL_SMOOTH);
-	glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);				// sets specular material color
-	glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);					// sets shininess
+	glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);		// sets specular material color
+	glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);		// sets shininess
 		
-	glLight(GL_LIGHT0, GL_POSITION, lightPosition);				// sets light position
-	glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);				// sets specular light to white
-	glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);					// sets diffuse light to white
-	glLightModel(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);		// global ambient light 
+	glLight(GL_LIGHT0, GL_POSITION, lightPosition);		// sets light position
+	glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);		// sets specular light to white
+	glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);		// sets diffuse light to white
+	glLightModel(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);	// global ambient light 
 		
-	glEnable(GL_LIGHTING);										// enables lighting
-	glEnable(GL_LIGHT0);										// enables light0
+	glEnable(GL_LIGHTING);					// enables lighting
+	glEnable(GL_LIGHT0);					// enables light0
 		
-	glEnable(GL_COLOR_MATERIAL);								// enables opengl to use glColor3f to define material color
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);			// tell opengl glColor3f effects the ambient and diffuse properties of material
+	glEnable(GL_COLOR_MATERIAL);				// enables opengl to use glColor3f to define material color
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);      // tell opengl glColor3f effects the ambient and diffuse properties of material
         //----------- END: Variables & method calls added for Lighting Test -----------//
     }
     
@@ -105,16 +102,12 @@ public class Main {
     }
     
     public static void gameLoop() throws IOException {
-        t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/grass.png"), GL_NEAREST);
-        t2 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/dirt.png"), GL_NEAREST);
         m = MapParser.parseMap("/res/simple_map.bsp");
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
             
             glPushMatrix();
-            
-            glBindTexture(GL_TEXTURE_2D, t2.getTextureID());
             
             Player.update(0.2f);
             
@@ -123,12 +116,9 @@ public class Main {
             
             //-----starting light code-----//
             lightPosition = BufferUtils.createFloatBuffer(4);
-            lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
+            lightPosition.put(5.0f).put(5.0f).put(5.0f).put(1.0f).flip();
             glLight(GL_LIGHT0, GL_POSITION, lightPosition);
             //-----ending light code-----//
-            
-            glColor3f(0,0,1);
-            glBindTexture(GL_TEXTURE_2D, 0);
             
             glPopMatrix();
             

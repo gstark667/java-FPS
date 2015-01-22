@@ -17,7 +17,6 @@ public class Vertex {
     public Vertex(float x, float y) {
         this.x = x;
         this.y = y;
-        System.out.println("Vertex: " + x + "," + y);
     }
     
     public void render() {

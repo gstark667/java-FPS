@@ -37,7 +37,7 @@ public class MapParser {
         
         while(!line.equals("end")) {
             String[] split = line.split(",");
-            lineDefs.add(new LineDef(vertecies.get(Integer.parseInt(split[0])), vertecies.get(Integer.parseInt(split[1]))));
+            lineDefs.add(new LineDef(vertecies.get(Integer.parseInt(split[0])), vertecies.get(Integer.parseInt(split[1])), split[2].equals("1")));
             line = mapReader.nextLine();
         }
         
