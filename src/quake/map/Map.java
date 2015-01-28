@@ -42,6 +42,8 @@ public class Map {
     public void Render() {
         for(Node n: nodes)
             n.render();
+        
+        setTexture(0);
     }
     
     public boolean canFall(float x, float y, float z) {

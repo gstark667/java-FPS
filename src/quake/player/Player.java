@@ -17,7 +17,7 @@ import quake.Main;
  * @author gavinstark
  */
 public class Player{
-    static float x, y, z;
+    public static float x, y, z;
     static float xv, yv, zv;
     static float r, p;
     static float t;
@@ -38,9 +38,9 @@ public class Player{
             
             float yd = Mouse.getDY();
             if(yd > 0 && p > -90)
-                p -= yd*0.05;
+                p -= yd*0.5;
             else if(yd < 0 && p < 90)
-                p -= yd*0.05;
+                p -= yd*0.5;
         }
         
         double angle = Math.toRadians(r);

@@ -5,17 +5,20 @@
  */
 package quake;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
-
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import obj.Model;
+import obj.ModelLoader;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.*;
+
 import org.newdawn.slick.opengl.Texture;
+import quake.map.BufferTools;
 import quake.map.Map;
 import quake.map.MapParser;
 import quake.player.Player;
@@ -48,7 +51,7 @@ public class Main {
     public static void initDisplay() {
         try {
             Display.setDisplayMode(Display.getAvailableDisplayModes()[0]);
-            Display.setFullscreen(true);
+            Display.setFullscreen(false);
             Display.setVSyncEnabled(true);
             Display.create();
         } catch (LWJGLException ex) {
@@ -69,40 +72,19 @@ public class Main {
         glCullFace(GL_BACK);
         
         //----------- Variables & method calls added for Lighting Test -----------//
-	initLightArrays();
-	glShadeModel(GL_SMOOTH);
-	glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);		// sets specular material color
-	glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);		// sets shininess
-		
-	glLight(GL_LIGHT0, GL_POSITION, lightPosition);		// sets light position
-	glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);		// sets specular light to white
-	glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);		// sets diffuse light to white
-	glLightModel(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);	// global ambient light 
-		
-	glEnable(GL_LIGHTING);					// enables lighting
-	glEnable(GL_LIGHT0);					// enables light0
-		
-	glEnable(GL_COLOR_MATERIAL);				// enables opengl to use glColor3f to define material color
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);      // tell opengl glColor3f effects the ambient and diffuse properties of material
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glLightModel(GL_LIGHT_MODEL_AMBIENT, BufferTools.asFlippedFloatBuffer(new float[]{1f, 1f, 1f, 1f}));
+        glLight(GL_LIGHT0, GL_DIFFUSE, BufferTools.asFlippedFloatBuffer(new float[]{1, 1, 1, 1}));
+        glLight(GL_LIGHT0, GL_SPECULAR, BufferTools.asFlippedFloatBuffer(new float[]{1, 0, 0, 1}));
+        glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0, 0, 0, 0}));
         //----------- END: Variables & method calls added for Lighting Test -----------//
-    }
-    
-    public static void initLightArrays() {
-	matSpecular = BufferUtils.createFloatBuffer(4);
-	matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
-		
-	lightPosition = BufferUtils.createFloatBuffer(4);
-	lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
-		
-	whiteLight = BufferUtils.createFloatBuffer(4);
-	whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
-		
-	lModelAmbient = BufferUtils.createFloatBuffer(4);
-        lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
     }
     
     public static void gameLoop() throws IOException {
         m = MapParser.parseMap("/res/simple_map.bsp");
+        Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
+        Model map = ModelLoader.loadModel("src/res/map.obj");
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
@@ -112,13 +94,17 @@ public class Main {
             Player.update(0.2f);
             
             Player.render();
-            m.Render();
+            //m.Render();
             
             //-----starting light code-----//
-            lightPosition = BufferUtils.createFloatBuffer(4);
-            lightPosition.put(5.0f).put(5.0f).put(5.0f).put(1.0f).flip();
-            glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+            glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.8f, 0.5f, 0.3f, 0}));
+            //glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.1f, 0.1f, 0.1f, 1}));
             //-----ending light code-----//
+            
+            monkey.render(2.5f, 2, 5);
+            map.render(0, 0, 0);
+            
+            
             
             glPopMatrix();
             

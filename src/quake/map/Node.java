@@ -41,7 +41,7 @@ public class Node {
         float z = (float)Math.cos(a);
         float x = (float)Math.sin(a);
         float y = 0;
-        return new Vector3f(x,y,z);
+        return new Vector3f(-x,y,z);
     }
     
     public void render() {
