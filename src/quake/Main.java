@@ -81,9 +81,9 @@ public class Main {
     
     public static void gameLoop() throws IOException {
         m = MapParser.parseMap("/res/simple_map.bsp");
-        Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
+        //Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
         Model map = ModelLoader.loadModel("src/res/map.obj");
-        //t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/grass.png"), GL_NEAREST);
+        t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/texture.png"), GL_NEAREST);
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
@@ -100,9 +100,9 @@ public class Main {
             //glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.1f, 0.1f, 0.1f, 1}));
             //-----ending light code-----//
             
-            //glBindTexture(GL_TEXTURE_2D, t.getTextureID());
+            glBindTexture(GL_TEXTURE_2D, t.getTextureID());
             
-            monkey.renderFollow(2.5f, 2, 5);
+            //monkey.renderFollow(2.5f, 2, 5);
             map.render(0, 0, 0);
             
             glPopMatrix();
