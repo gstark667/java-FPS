@@ -18,6 +18,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 import quake.map.BufferTools;
 import quake.map.Map;
 import quake.map.MapParser;
@@ -31,12 +33,6 @@ public class Main {
     public static Map m;
     static Texture t;
     static Texture t2;
-    //----------- Variables added for Lighting Test -----------//
-	public static FloatBuffer matSpecular;
-	public static FloatBuffer lightPosition;
-	public static FloatBuffer whiteLight; 
-	public static FloatBuffer lModelAmbient;
-    //----------- END: Variables added for Lighting Test -----------//
         
     /**
      * @param args the command line arguments
@@ -65,6 +61,8 @@ public class Main {
         glMatrixMode(GL_MODELVIEW);
         glClearColor(0, 0, 0, 0);
         
+        glEnable(GL_SMOOTH);
+        
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_DEPTH_TEST);
         
@@ -85,6 +83,7 @@ public class Main {
         m = MapParser.parseMap("/res/simple_map.bsp");
         Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
         Model map = ModelLoader.loadModel("src/res/map.obj");
+        //t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/grass.png"), GL_NEAREST);
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
@@ -101,10 +100,10 @@ public class Main {
             //glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.1f, 0.1f, 0.1f, 1}));
             //-----ending light code-----//
             
-            monkey.render(2.5f, 2, 5);
+            //glBindTexture(GL_TEXTURE_2D, t.getTextureID());
+            
+            monkey.renderFollow(2.5f, 2, 5);
             map.render(0, 0, 0);
-            
-            
             
             glPopMatrix();
             
