@@ -22,22 +22,23 @@ import org.newdawn.slick.util.ResourceLoader;
  * @author Octalus
  */
 public class Map {
-    ArrayList<Node> nodes;
-    ArrayList<Texture> textures;
+    Node[] nodes;
+    Texture[] textures;
     
     public Map(ArrayList<Node> nodes, ArrayList<String> texture_paths) {
-        this.nodes = nodes;
-        textures = new ArrayList<Texture>();
-        for(String path: texture_paths)
+        this.nodes = new Node[nodes.size()];
+        this.textures = new Texture[texture_paths.size()];
+        nodes.toArray(this.nodes);
+        for(int i = 0; i < texture_paths.size(); i++)
             try {
-                textures.add(TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/" + path), GL11.GL_NEAREST));
+                textures[i] = (TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/" + texture_paths.get(i)), GL11.GL_NEAREST));
             } catch (IOException ex) {
                 Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
     
     public void setTexture(int i) {
-        glBindTexture(GL_TEXTURE_2D, textures.get(i).getTextureID());
+        glBindTexture(GL_TEXTURE_2D, textures[i].getTextureID());
     }
     
     public void Render() {
