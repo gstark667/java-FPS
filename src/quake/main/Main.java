@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package quake;
+package quake.main;
 
 import java.io.IOException;
-import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import obj.Model;
 import obj.ModelLoader;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
@@ -69,14 +67,12 @@ public class Main {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         
-        //----------- Variables & method calls added for Lighting Test -----------//
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
         glLightModel(GL_LIGHT_MODEL_AMBIENT, BufferTools.asFlippedFloatBuffer(new float[]{1f, 1f, 1f, 1f}));
         glLight(GL_LIGHT0, GL_DIFFUSE, BufferTools.asFlippedFloatBuffer(new float[]{1, 1, 1, 1}));
         glLight(GL_LIGHT0, GL_SPECULAR, BufferTools.asFlippedFloatBuffer(new float[]{1, 0, 0, 1}));
         glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0, 0, 0, 0}));
-        //----------- END: Variables & method calls added for Lighting Test -----------//
     }
     
     public static void gameLoop() throws IOException {
@@ -91,14 +87,9 @@ public class Main {
             glPushMatrix();
             
             Player.update(0.2f);
-            
             Player.render();
-            //m.Render();
             
-            //-----starting light code-----//
             glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.8f, 0.5f, 0.3f, 0}));
-            //glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.1f, 0.1f, 0.1f, 1}));
-            //-----ending light code-----//
             
             glBindTexture(GL_TEXTURE_2D, t.getTextureID());
             

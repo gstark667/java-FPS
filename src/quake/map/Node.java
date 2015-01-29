@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.vecmath.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
-import quake.Main;
+import quake.main.Main;
 
 /**
  *

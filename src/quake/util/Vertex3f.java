@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package obj;
+package quake.util;
 
 /**
  *
  * @author gsta4786
  */
-class Vertex3f {
-    float x, y, z;
+public class Vertex3f {
+    public float x, y, z;
     
     public Vertex3f(float x, float y, float z) {
         this.x = x;

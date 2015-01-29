@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.GL11.glRotated;
 import static org.lwjgl.opengl.GL11.glTranslated;
-import quake.Main;
+import quake.main.Main;
 
 /**
  *

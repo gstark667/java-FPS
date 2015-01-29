@@ -6,6 +6,8 @@
 
 package obj;
 
+import quake.util.Vertex2f;
+import quake.util.Vertex3f;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
