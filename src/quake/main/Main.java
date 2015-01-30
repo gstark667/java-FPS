@@ -78,7 +78,7 @@ public class Main {
     public static void gameLoop() throws IOException {
         m = MapParser.parseMap("/res/simple_map.bsp");
         //Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
-        Model map = ModelLoader.loadModel("src/res/map.obj");
+        Model map = ModelLoader.loadModel("src/res/castle.obj");
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/texture.png"), GL_NEAREST);
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
