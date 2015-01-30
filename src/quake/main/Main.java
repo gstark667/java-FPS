@@ -5,6 +5,9 @@
  */
 package quake.main;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.*;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,9 +15,6 @@ import obj.Model;
 import obj.ModelLoader;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
-
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -77,7 +77,7 @@ public class Main {
     
     public static void gameLoop() throws IOException {
         m = MapParser.parseMap("/res/simple_map.bsp");
-        //Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
+        Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
         Model map = ModelLoader.loadModel("src/res/map.obj");
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/texture.png"), GL_NEAREST);
         while(!Display.isCloseRequested()) {
@@ -85,15 +85,17 @@ public class Main {
             glLoadIdentity();
             
             glPushMatrix();
-            
+           
             Player.update(0.2f);
             Player.render();
             
             glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.8f, 0.5f, 0.3f, 0}));
             
-            glBindTexture(GL_TEXTURE_2D, t.getTextureID());
+            glBindTexture(GL_TEXTURE_2D, 0);
+            monkey.renderFollow(2.5f, 2, 5);
             
-            //monkey.renderFollow(2.5f, 2, 5);
+            
+            glBindTexture(GL_TEXTURE_2D, t.getTextureID());
             map.render(0, 0, 0);
             
             glPopMatrix();
