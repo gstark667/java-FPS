@@ -25,7 +25,7 @@ public class Player{
     static float dz = 0;
     static {
         x = 1;
-        y = 0.5f;
+        y = 6;
         z = 1;
         r = 0;
         p = 0;

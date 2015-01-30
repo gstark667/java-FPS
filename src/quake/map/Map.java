@@ -67,22 +67,24 @@ public class Map {
     }
     
     public float fallDistance(float x, float y, float z) {
-        float c = -1;
+        float highest = -100f;
         for(Node n: nodes) {
             if(n.p.contains(x, y)) {
                 if(n.fv) {
-                    float fh = n.floor.getHeight(x, y)-z;
-                    if(Math.abs(fh) < Math.abs(c))
-                        c = fh;
+                    float fh = n.floor.getHeight(x, y);
+                    if(Math.abs(fh - z) < 0.5)
+                        if(fh > highest)
+                            highest = fh;
                 }
                 if(n.cv) {
-                    float ch = n.celing.getHeight(x, y)-z;
-                    if(Math.abs(ch) < Math.abs(c))
-                        c = ch;
+                    float ch = n.celing.getHeight(x, y);
+                    if(Math.abs(ch - z) < 0.5)
+                        if(ch > highest)
+                            highest = ch;
                 }
             }
         }
-        return c;
+        return highest - z;
     }
     
     public boolean canMove(float x0, float y0, float x1, float y1, float z) {

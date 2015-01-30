@@ -44,7 +44,7 @@ public class Main {
     
     public static void initDisplay() {
         try {
-            Display.setDisplayMode(Display.getAvailableDisplayModes()[0]);
+            Display.setDisplayMode(Display.getAvailableDisplayModes()[1]);
             Display.setFullscreen(false);
             Display.setVSyncEnabled(true);
             Display.create();
@@ -76,7 +76,7 @@ public class Main {
     }
     
     public static void gameLoop() throws IOException {
-        m = MapParser.parseMap("/res/simple_map.bsp");
+        m = MapParser.parseMap("/res/castle.bsp");
         //Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
         Model map = ModelLoader.loadModel("src/res/castle.obj");
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/texture.png"), GL_NEAREST);
@@ -89,12 +89,13 @@ public class Main {
             Player.update(0.2f);
             Player.render();
             
-            glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.8f, 0.5f, 0.3f, 0}));
+            //glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.8f, 0.5f, 0.3f, 0}));
+            glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0, 5, 0, 1}));
             
             glBindTexture(GL_TEXTURE_2D, 0);
             //monkey.renderFollow(2.5f, 2, 5);
             
-            
+            //m.Render();
             glBindTexture(GL_TEXTURE_2D, t.getTextureID());
             map.render(0, 0, 0);
             
