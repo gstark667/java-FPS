@@ -45,7 +45,7 @@ public class Model {
                 Vertex2f uv = uvs[faces[i+1]];
                 Vertex3f normal = normals[faces[i+2]];
                 glNormal3f(normal.x, normal.y, normal.z);
-                glTexCoord2f(uv.x, uv.y);
+                glTexCoord2f(uv.y, uv.x);
                 glVertex3f(vertex.x, vertex.y, vertex.z);
             }
         glEnd();

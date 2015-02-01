@@ -79,7 +79,7 @@ public class Main {
         m = MapParser.parseMap("/res/castle.bsp");
         //Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
         Model map = ModelLoader.loadModel("src/res/castle.obj");
-        t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/texture.png"), GL_NEAREST);
+        t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/Castle.png"), GL_NEAREST);
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
