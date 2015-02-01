@@ -49,7 +49,7 @@ public class ModelLoader {
                     faces.add(Integer.parseInt(split[3].split("/")[2])-1);
                 }else if(line.startsWith("vt ")) {
                     String[] split = line.split(" ");
-                    uvs.add(new Vertex2f(Float.parseFloat(split[1]), Float.parseFloat(split[2])));
+                    uvs.add(new Vertex2f(Float.parseFloat(split[1]), 1.0f - Float.parseFloat(split[2])));
                 }
             }
             
