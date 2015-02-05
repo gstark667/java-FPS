@@ -11,6 +11,7 @@ import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.GL11.glRotated;
 import static org.lwjgl.opengl.GL11.glTranslated;
 import quake.main.Main;
+import quake.projectile.Projectile;
 
 /**
  *
@@ -127,9 +128,11 @@ public class Player{
             xv = 0;
         }
         
-        if(Mouse.isButtonDown(0))
+        if(Mouse.isButtonDown(0)) {
             Mouse.setGrabbed(true);
-        else if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+            System.out.println(r);
+            Main.pl.add(new Projectile(x, y+1, z, (float)Math.cos(Math.toRadians(r-90)), (float)Math.sin(Math.toRadians(-p)), (float)Math.sin(Math.toRadians(r-90))));
+        }else if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
             Mouse.setGrabbed(false);
         
         t+=0.1f;
