@@ -129,8 +129,7 @@ public class Player{
         }
         
         if(Mouse.isButtonDown(0)) {
-            Mouse.setGrabbed(true);
-            System.out.println(r);
+            Mouse.setGrabbed(true); 
             Main.pl.add(new Projectile(x, y+1, z, (float)Math.cos(Math.toRadians(r-90)), (float)Math.sin(Math.toRadians(-p)), (float)Math.sin(Math.toRadians(r-90))));
         }else if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
             Mouse.setGrabbed(false);
