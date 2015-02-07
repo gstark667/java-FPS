@@ -5,6 +5,8 @@
  */
 package quake.projectile;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import static org.lwjgl.opengl.GL11.*;
 import quake.main.Main;
 
@@ -23,31 +25,30 @@ public class Projectile {
         this.xv = xv;
         this.yv = yv;
         this.zv = zv;
-    }
-    
-    public void update() {
+    } 
+   
+    public boolean update() {
+        if(!Main.m.canMove(x, z, x + xv, z + zv, y) || Main.m.floorCollide(x, y, z, xv, yv, zv)) {
+            return true;
+        }
+        
         x += xv;
         y += yv;
         z += zv;
         
-        if(!Main.m.canMove(x, z, x + xv + xv, z + zv + zv, y)) {
-            xv = 0;
-            yv = 0;
-            zv = 0;
-        }
+        return false;
     }
     
     public void render() {
-        glDisable(GL_DEPTH_TEST);
+        //glDisable(GL_DEPTH_TEST);
         glDisable(GL_LIGHTING);
-        glPointSize(20);
-        glBegin(GL_POINTS);
+        glBegin(GL_LINES);
             glColor3f(1, 0, 0);
-            glVertex3f(x + xv*100, y + yv*100, z + zv*100);
-            glColor3f(1, 1, 1);
             glVertex3f(x, y, z);
+            glColor3f(1, 0.5f, 0);
+            glVertex3f(x+xv, y+yv, z+zv);
         glEnd();
         glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
+        //glEnable(GL_DEPTH_TEST);
     }
 }

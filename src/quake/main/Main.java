@@ -5,9 +5,6 @@
  */
 package quake.main;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -16,6 +13,9 @@ import obj.Model;
 import obj.ModelLoader;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.*;
+
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -24,6 +24,7 @@ import quake.map.Map;
 import quake.map.MapParser;
 import quake.player.Player;
 import quake.projectile.Projectile;
+import quake.projectile.Target;
 
 /**
  *
@@ -34,7 +35,8 @@ public class Main {
     static Texture t;
     static Texture t2;
     public static ArrayList<Projectile> pl;
-        
+    public static Target ta;    
+    
     /**
      * @param args the command line arguments
      */
@@ -84,6 +86,7 @@ public class Main {
         Model map = ModelLoader.loadModel("src/res/castle.obj");
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/Castle.png"), GL_NEAREST);
         pl = new ArrayList<Projectile>();
+        ta = new Target(0, 2.5f, 0);
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
@@ -96,7 +99,6 @@ public class Main {
             //glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0.8f, 0.5f, 0.3f, 0}));
             glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(new float[]{0, 5, 0, 1}));
             
-            
             //monkey.renderFollow(2.5f, 2, 5);
             
             //m.Render();
@@ -104,10 +106,17 @@ public class Main {
             map.render(0, 0, 0);
             glBindTexture(GL_TEXTURE_2D, 0);
             
+            ta.render();
+            
+            ArrayList<Projectile> toRemove = new ArrayList<Projectile>();
             for(Projectile p: pl) {
-                p.update();
+                if(p.update())
+                    toRemove.add(p);
                 p.render();
             }
+            
+            for(Projectile p: toRemove)
+                pl.remove(p);
             
             glPopMatrix();
             

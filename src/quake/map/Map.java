@@ -66,6 +66,25 @@ public class Map {
         return true;
     }
     
+    public boolean floorCollide(float x, float y, float z, float xv, float yv, float zv) {
+        for(Node n: nodes) {
+            if(n.p.contains(x, z) && n.p.contains(x+xv, z+zv)) {
+                if(n.fv) {
+                    if(y > n.floor.getHeight(x,z) && y + yv < n.floor.getHeight(x+xv, z+zv))
+                        return true;
+                        
+                }
+                
+                if(n.cv) {
+                    if(y < n.celing.getHeight(x,z) && y + yv > n.celing.getHeight(x+xv, z+zv))
+                        return true;
+                        
+                }
+            }
+        }
+        return false;
+    }
+    
     public float fallDistance(float x, float y, float z) {
         float highest = -100f;
         for(Node n: nodes) {
