@@ -36,6 +36,8 @@ public class Projectile {
         y += yv;
         z += zv;
         
+        Main.ta.update(x, y, z);
+        
         return false;
     }
     
