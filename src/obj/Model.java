@@ -55,10 +55,10 @@ public class Model {
     public void renderFollow(float x, float y, float z) {
         glPushMatrix();
         glTranslatef(x, y, z);
-        double xd = x - Player.x;
-        double zd = z - Player.z;
+        double xd = x - Player.getXPositon();
+        double zd = z - Player.getZPositon();
         glRotated(-Math.toDegrees(Math.atan2(zd, xd))-90, 0, 1, 0);
-        glRotated(Math.toDegrees(Math.atan2(y-Player.y, Math.sqrt(xd*xd + zd*zd))), 1, 0, 0);
+        glRotated(Math.toDegrees(Math.atan2(y-Player.getYPositon(), Math.sqrt(xd*xd + zd*zd))), 1, 0, 0);
         glColor3f(1, 1, 1);
         glBegin(GL_TRIANGLES);
             for(int i = 0; i < faces.length; i += 3) {
