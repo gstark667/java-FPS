@@ -43,7 +43,7 @@ public class Target {
         
         glTranslatef(x, y, z);
         
-        glDisable(GL_DEPTH_TEST);
+        //glDisable(GL_DEPTH_TEST);
         glDisable(GL_LIGHTING);
         glBegin(GL_QUADS);
             glVertex3f(-0.5f, -0.5f, 0);
@@ -55,7 +55,7 @@ public class Target {
         hit = false;
         
         glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
+        //glEnable(GL_DEPTH_TEST);
         
         glPopMatrix();
     }
