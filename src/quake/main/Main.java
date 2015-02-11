@@ -87,6 +87,9 @@ public class Main {
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/Castle.png"), GL_NEAREST);
         pl = new ArrayList<Projectile>();
         ta = new Target(0, 2.5f, 0);
+        
+        Player.setPosition(0, 4, 0);
+        
         while(!Display.isCloseRequested()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glLoadIdentity();
