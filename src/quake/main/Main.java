@@ -84,6 +84,7 @@ public class Main {
         m = MapParser.parseMap("/res/castle.bsp");
         //Model monkey = ModelLoader.loadModel("src/res/lowpoly.obj");
         Model map = ModelLoader.loadModel("src/res/castle.obj");
+        Model player = ModelLoader.loadModel("src/res/player.obj");
         t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/Castle.png"), GL_NEAREST);
         pl = new ArrayList<Projectile>();
         ta = new Target(0, 2.5f, 0);
@@ -107,6 +108,10 @@ public class Main {
             //m.Render();
             glBindTexture(GL_TEXTURE_2D, t.getTextureID());
             map.render(0, 0, 0);
+            player.renderFollow(2, 2, 0);
+            player.renderFollow(-2, 2, 0);
+            player.renderFollow(0, 2, 2);
+            player.renderFollow(0, 2, -2);
             glBindTexture(GL_TEXTURE_2D, 0);
             
             ta.render();
