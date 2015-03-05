@@ -5,7 +5,11 @@
  */
 package quake.main;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +17,7 @@ import obj.Model;
 import obj.ModelLoader;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
@@ -36,11 +41,16 @@ public class Main {
     static Texture t2;
     public static ArrayList<Projectile> pl;
     public static Target ta;    
-    
+    public static Socket socket;
+    public static PrintWriter out;
+    public static BufferedReader in;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
+        socket = new Socket("localhost", 6667);
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         initDisplay();
         initGL();
         gameLoop();

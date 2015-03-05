@@ -145,6 +145,8 @@ public class Player{
             Mouse.setGrabbed(false);
         
         time+=0.1f;
+        
+        Main.out.println("pt:" + x_position + "," + y_position + "," + z_position);
     }
     
     public static void render() {
