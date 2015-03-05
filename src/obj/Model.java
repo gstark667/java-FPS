@@ -39,6 +39,7 @@ public class Model {
         glPushMatrix();
         glTranslatef(x, y, z);
         glColor3f(1, 1, 1);
+        
         glBegin(GL_TRIANGLES);
             for(int i = 0; i < faces.length; i += 3) {
                 Vertex3f vertex = verticies[faces[i]];
@@ -49,7 +50,25 @@ public class Model {
                 glVertex3f(vertex.x, vertex.y, vertex.z);
             }
         glEnd();
+        
         glPopMatrix();
+    }
+    
+    public void renderTriangles() {
+        glBegin(GL_TRIANGLES);
+            for(int i = 0; i < faces.length; i += 3) {
+                Vertex3f vertex = verticies[faces[i]];
+                Vertex2f uv = uvs[faces[i+1]];
+                Vertex3f normal = normals[faces[i+2]];
+                glNormal3f(normal.x, normal.y, normal.z);
+                glTexCoord2f(uv.x, uv.y);
+                glVertex3f(vertex.x, vertex.y, vertex.z);
+            }
+        glEnd();
+    }
+    
+    public void renderQuads() {
+        
     }
     
     public void renderFollow(float x, float y, float z) {

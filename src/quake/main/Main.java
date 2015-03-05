@@ -17,7 +17,6 @@ import obj.Model;
 import obj.ModelLoader;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
@@ -44,6 +43,7 @@ public class Main {
     public static Socket socket;
     public static PrintWriter out;
     public static BufferedReader in;
+    public static int id;
     /**
      * @param args the command line arguments
      */
@@ -51,6 +51,7 @@ public class Main {
         socket = new Socket("localhost", 6667);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        id = Integer.parseInt(in.readLine());
         initDisplay();
         initGL();
         gameLoop();
